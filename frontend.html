@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToxPi Interface</title>
+    <style>
+        body {
+            background-color: lightgreen;
+            font-family: 'Cambria', serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: left;
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .box {
+            background-color: white;
+            border: 2px solid darkgrey;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+        .text-box img {
+            max-width: 50%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .talk-to-toxpi {
+            flex: 1 1 calc(25% - 40px);
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+        }
+
+        .talk-to-toxpi .chat-window {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px;
+            overflow-y: auto;
+            border: 1px solid black;
+            margin-bottom: 10px;
+        }
+
+        .talk-to-toxpi .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .talk-to-toxpi .chat-input input {
+            flex-grow: 1;
+            border-radius: 15px;
+            padding: 10px;
+            border: 1px solid black;
+        }
+
+        .talk-to-toxpi .chat-input button {
+            padding: 10px 20px;
+            border-radius: 15px;
+            background-color: darkgrey;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .talk-to-toxpi .chat-input button:hover {
+            background-color: grey;
+        }
+
+        .chat-bubble {
+            max-width: 70%;
+            padding: 10px;
+            border-radius: 15px;
+            margin: 5px 0;
+        }
+
+        .chat-bubble.user {
+            background-color: lightblue;
+            align-self: flex-end;
+        }
+
+        .chat-bubble.other {
+            background-color: lightgrey;
+            align-self: flex-start;
+        }
+
+        .chemicals-table {
+            flex: 1 1 calc(20% - 40px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chemicals-table h3 {
+            margin: 0 0 10px;
+        }
+
+        .chemicals-table table {
+            width: 100%;
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+
+        .chemicals-table th, .chemicals-table td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .chemicals-table .submit-button {
+            margin-top: 10px;
+        }
+        
+        .output-section {
+            flex: 1 1 calc(55% - 40px); 
+        }
+
+        .text-box {
+            flex: 1 1 calc(16% - 40px); 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .text-box div {
+            width: 100%;
+            height: 100%;
+            border: 1px solid black;
+            padding: 10px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            background-color: white;
+        }
+
+        .description {
+            font-size: 16px;
+            color: darkgrey;
+        }
+
+        .button {
+            padding: 10px 20px;
+            border: none;
+            background-color: darkgrey;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            width: fit-content;
+        }
+
+        .button img {
+            margin-right: 5px;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .button:hover {
+            background-color: grey;
+        }
+    </style>
+</head>
+<body>
+    <h1>Talk to ToxPi</h1>
+    <div class="container">
+        <div class="box talk-to-toxpi">
+            <h2 style="text-align: left;">Scenario</h2>
+            <!-- Talk to ToxPi content goes here -->
+            <div class="chat-window" id="chat-window">
+                <div class="chat-bubble other">Enter your environmental risk scenario</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Type your message here..." />
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+        <div class="box chemicals-table">
+            <!-- Chemicals table goes here -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>AI-Identified Chemicals</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Placeholder for variables -->
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="button submit-button">Submit</button>
+        </div>
+        <div class="box output-section">
+            <h3>Adjust Your Model</h3>
+            <p class="description">Submit Chemicals to Update</p>
+            <button class="button download-button">
+                <img src="paper-clip-metal-supply-icon-free-vector.jpg" alt="Paperclip Icon">
+                Click to download for a full analysis
+            </button>
+            <div id="output-images">
+                <!-- Placeholders for images -->
+            </div>
+        </div>
+        <div class="box text-box">
+            <!-- Text box content goes here -->
+            <div>
+                <img src="toxpi.png" alt="ToxPi Image"/>
+                Description of the text box. This area is read-only.
+            </div>
+        </div>
+        
+    </div>
+    <script src="backendscript.js"></script>
+</body>
+</html>
