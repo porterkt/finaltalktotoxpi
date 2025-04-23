@@ -60,11 +60,11 @@ register_ctx_api_key(key = "ff28b69b-9007-468f-9bff-5bb27e13c051", write = TRUE)
 my_key <- ctx_key()
 
 #load("variables.RData")
-dtxsid1 = "DTXSID7020182" #found_dtx[0]
-dtxsid2 = "DTXSID9020112" #found_dtx[1]
-dtxsid3 = "DTXSID9023049" #found_dtx[2]
-dtxsid4 = "DTXSID0020232" #found_dtx[3]
-dtxsid5 = "DTXSID3039242" #found_dtx[4]
+dtxsid1 = found_dtx[0]
+dtxsid2 = found_dtx[1]
+dtxsid3 = found_dtx[2]
+dtxsid4 = found_dtx[3]
+dtxsid5 = found_dtx[4]
 dtxsidlist <- c(dtxsid1, dtxsid2, dtxsid3, dtxsid4, dtxsid5)
 
 bioactivitytoxdata1 <- get_bioactivity_details(dtxsid1)
