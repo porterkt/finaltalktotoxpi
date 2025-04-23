@@ -1,21 +1,22 @@
+//Receives message from user and sends it to main script
 function sendMessage() {
     const chatWindow = document.getElementById('chat-window');
     const userInput = document.getElementById('user-input');
     const message = userInput.value.trim();
 
     if (message) {
-        //Create a new chat bubble for the user message
+        //Create chat bubble for each new user message
         const userBubble = document.createElement('div');
         userBubble.className = 'chat-bubble user';
         userBubble.textContent = message;
 
-        //Add the bubble to the chat window
+        //Adds bubble to chat window
         chatWindow.appendChild(userBubble);
 
-        //Clear input field
+        //Clears input field after each message
         userInput.value = '';
 
-        //Allows for scrolling to the bottom of the chat window
+        //Allows for scrolling to the bottom of the chat window for longer conversations
         chatWindow.scrollTop = chatWindow.scrollHeight;
 
         //Sends input to the backend server through app.py
@@ -28,7 +29,7 @@ function sendMessage() {
         })
         .then(response => response.json())
         .then(data => {
-            //Creates a new chat bubble for each response
+            //Creates a new chat bubble for each response from machine
             const botBubble = document.createElement('div');
             botBubble.className = 'chat-bubble other';
             botBubble.textContent = data.response;
@@ -48,6 +49,7 @@ function sendMessage() {
     }
 }
 
+//Populates chemical table with chemical input
 function populateChemicalsTable(chemicals) {
     const tbody = document.querySelector('.chemicals-table tbody');
     tbody.innerHTML = '';  //Clear previously existing data and rows
@@ -75,11 +77,37 @@ document.querySelector('.submit-button').addEventListener('click', (event) => {
     //Simulate sending data to the backend
     console.log('Chemicals data submitted:', chemicalData);
     
-    //Handle updating some output section
+    //Handle updating the output section
     document.querySelector('.description').textContent = 'Chemicals data submitted successfully! Processing...';
     
     //Simulate processing and updating the output
     setTimeout(() => {
         document.querySelector('.description').textContent = 'Submit Chemicals to Update';
-    }, 2000); //Simulate slight processing delay
+    }, 2000); //Simulate processing delay
 });
+
+//Connected to Download button in front end--last step
+function downloadFullAnalysis() {
+    fetch('http://127.0.0.1:5000/file')  // May need to change to /api/file
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not correct');
+            }
+            return response.text();
+        })
+        .then(csvContent => {
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' }); //tells processor to expect comma-separated values
+            const url = URL.createObjectURL(blob);
+            const downloadLink = document.createElement('a');
+            downloadLink.href = url;
+            downloadLink.download = 'your_full_analysis.csv';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+            URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            console.error('Download failed:', error);
+        });
+}
+

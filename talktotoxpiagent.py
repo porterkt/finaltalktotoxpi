@@ -77,10 +77,45 @@ def get_message(input_message):
     else:
         print("No response provided.")
 
-def main():
+
+def getfile(found_dtx):
+    import subprocess
+    import pandas as pd
+    import tempfile
+    import os
+
+    #Write found_dtx to a temporary CSV file so it can be interpreted by accessctx.r
+    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.csv') as f:
+        temp_input_path = f.name
+        if isinstance(found_dtx, pd.DataFrame):
+            found_dtx.to_csv(f, index=False)
+        else:
+            raise ValueError("found_dtx must be a pandas DataFrame.")
+
     try:
-        if len(sys.argv) < 2:
-            raise ValueError("Expected an action as an argument (message or chemicals)")
+        #RunR script and get stdoout string
+        result = subprocess.run(
+            ['Rscript', '/mnt/data/AccessCTX.R', temp_input_path],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+        #CSV string from AccessCTX.R
+        return result.stdout
+
+    except subprocess.CalledProcessError as e:
+        print("Error while running R script:", e.stderr)
+        return None
+
+    finally:
+        os.remove(temp_input_path)
+
+def main():
+    #Check that there are three arguments, one of each type
+    try:
+        if len(sys.argv) < 3:
+            raise ValueError("Expected an action as an argument (message or chemicals or file)")
         
         action = sys.argv[1]
         
@@ -106,9 +141,14 @@ def main():
                 "chemicals": chemicals
             }
             print(json.dumps(result_dict))
+        #Processes chemical output
         elif action == 'chemicals':
             chemicals = get_chemicals()
             print(json.dumps(chemicals))
+        #Processes file output, using found_dtx variable initialized in get_chemicals
+        elif action == 'file':
+            file_name = getfile(found_dtx)
+            print(json.dumps(file_name))
         else:
             raise ValueError("Unknown action, expected 'message' or 'chemicals'")
     except Exception as e:
