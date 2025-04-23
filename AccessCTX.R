@@ -171,7 +171,7 @@ library(readr)
 install.packages("toxpiR")
 library(toxpiR)
 
-#DOCUMENTATION FOR Slicing Data is CSV File is Inaccessible
+#DOCUMENTATION FOR Slicing Data if CSV File is Inaccessible
 # f.slices <- TxpSliceList(Slice1 = TxpSlice("aeid806"),
 #                          Slice2 = TxpSlice(c("aeid2364")),
 #                          Slice3 = TxpSlice(c("aeid781")),
