@@ -235,14 +235,42 @@
                 <!-- Placeholders for images (not currently in use) -->
             </div>
         </div>
-        <div class="box text-box">
-            <!-- Text box content will be here shortly -->
-            <div>
-                <img src="toxpi.png" alt="ToxPi Image"/>
-                Read-only description of the text box.
+        <div class="flex-container" style="display: flex; align-items: flex-start; gap: 20px; padding: 20px;">
+
+            <!-- TEXT BOX -->
+            <div class="text-box" style="flex: 1; font-family: Arial, sans-serif; line-height: 1.6;">
+              <ol>
+                <li><strong>Scenario Box</strong>
+                  <ol type="a">
+                    <li>The scenario box requests that the user inputs their environmental health scenario, which should include the city and state they inhabit. Other topics to inform chemical generation include, but are not limited to, occupation, background, gender, and class.</li>
+                      <li><strong>For example, a proper text entry might look like this:</strong> I am a <u>white man who works on a sweet potato farm in Dunn, North Carolina</u>. Please give me the five most important specific chemicals for me to know about.</li>
+                      <li>More information and questions may be requested from the chatbot within this scenario box, but the main purpose of it is to identify chemicals of risk.</li>
+                      <li>Click “Send” to process the response and transfer it through the RAG pipeline onto the next step.</li>
+                  </ol>
+                </li>
+          
+                <li><strong>AI-Identified Chemicals</strong>
+                  <ol type="a">
+                    <li>With a proper risk scenario inputted, the scenario will be processed and returned as a list of five identified chemicals that have elevated precedence in the user’s scenario.</li>
+                      <li>Once the chemicals have been identified, click “Submit” to create a ToxPi file with bioactivity data for those chemicals.</li>
+                  </ol>
+                </li>
+          
+                <li><strong>Output</strong>
+                  <ol type="a">
+                    <li>Click “Download” to get a personal ToxPi File to be used on the ToxPi Graphical User Interface. The link to the interface (<a href="https://toxpi.org/" target="_blank">https://toxpi.org/</a>) is included on the HTML page for quick reference.</li>
+                  </ol>
+                </li>
+              </ol>
             </div>
-        </div>
-        
+          
+            <!-- IMAGE BOX -->
+            <div class="image-box" style="flex: 1; text-align: center;">
+              <img src="toxpi.png" alt="ToxPi Image" style="max-width: 100%; height: auto; border: 1px solid #ccc;">
+              <p style="font-size: 0.9em; margin-top: 10px;">Visual output simplification of ToxPi. A larger pie has a larger comparative risk.</p>
+            </div>
+          
+          </div>  
     </div>
     <script src="backendscript.js"></script>
 </body>
